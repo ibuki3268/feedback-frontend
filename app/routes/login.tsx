@@ -9,10 +9,10 @@ export default function Login() {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        const correctPassword = 'your_secret_password'; // 環境変数を使用しない固定パスワード
+        const correctPassword = import.meta.env.VITE_PASSWORD;
         if (password === correctPassword) {
             localStorage.setItem('authenticated', 'true');
-            navigate('/protected');
+            navigate('/home'); // ログイン成功後に/homeにリダイレクト
         } else {
             setError('Incorrect password');
         }
