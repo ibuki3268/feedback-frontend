@@ -6,7 +6,7 @@ export async function onRequest(context: {
     request: Request;
     next: () => Promise<Response>;
     env: { CFP_PASSWORD?: string };
-}): Promise<Response> {
+}): Promise<Response | undefined> {
     const { request, next, env } = context;
     const { pathname, searchParams } = new URL(request.url);
     const { error } = Object.fromEntries(searchParams);
@@ -18,10 +18,11 @@ export async function onRequest(context: {
         CFP_ALLOWED_PATHS.includes(pathname) ||
         !env.CFP_PASSWORD
     ) {
-        // 正しいクッキーがある場合、許可されたパスにある場合、またはパスワードが設定されていない場合は続行
+        // Correct hash in cookie, allowed path, or no password set.
+        // Continue to next middleware.
         return await next();
     } else {
-        // クッキーがないか、不正なクッキーがある場合。ログインページにリダイレクト
+        // No cookie or incorrect hash in cookie. Redirect to login.
         return new Response(getTemplate({ redirectPath: pathname, withError: error === '1' }), {
             headers: {
                 'content-type': 'text/html'
