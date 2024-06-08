@@ -13,6 +13,10 @@ const mockProductDatabase: Record<string, Product> = {
     '987654321098': { id: '987654321098', name: 'Product 2', price: 200, description: 'Description for product 2' },
 };
 
+export const links = () => {
+    return [{ rel: 'stylesheet', href: '/styles/home.css' }];
+};
+
 export default function Home() {
     const [product, setProduct] = useState<Product | null>(null);
     const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
@@ -25,12 +29,12 @@ export default function Home() {
     };
 
     return (
-        <div>
+        <div className="container">
             <h1>じょぎの貸し出し</h1>
             <BarcodeReader onScan={handleScan} />
             {scannedBarcode && <p>Scanned Barcode: {scannedBarcode}</p>}
             {product ? (
-                <div>
+                <div className="product-details">
                     <h2>Product Details</h2>
                     <p>Name: {product.name}</p>
                     <p>Price: ${product.price}</p>
