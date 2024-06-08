@@ -18,11 +18,10 @@ export async function onRequest(context: {
         CFP_ALLOWED_PATHS.includes(pathname) ||
         !env.CFP_PASSWORD
     ) {
-        // Correct hash in cookie, allowed path, or no password set.
-        // Continue to next middleware.
+        // 正しいクッキーがある場合、許可されたパスにある場合、またはパスワードが設定されていない場合は続行
         return await next();
     } else {
-        // No cookie or incorrect hash in cookie. Redirect to login.
+        // クッキーがないか、不正なクッキーがある場合。ログインページにリダイレクト
         return new Response(getTemplate({ redirectPath: pathname, withError: error === '1' }), {
             headers: {
                 'content-type': 'text/html'
