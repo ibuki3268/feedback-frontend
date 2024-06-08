@@ -5,4 +5,18 @@ import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
 // eslint-disable-next-line import/no-unresolved
 import * as build from "../build/server";
 
-export const onRequest = createPagesFunctionHandler({ build });
+import { onRequest as handleMiddleware } from "./_middleware"; // _middlewareをインポート
+
+export const onRequest = async (context) => {
+    const { request, next } = context;
+
+    // Middlewareを先に実行
+    const middlewareResponse = await handleMiddleware(context);
+    if (middlewareResponse) {
+        return middlewareResponse;
+    }
+
+    // 次にRemixのハンドラーを実行
+    const remixHandler = createPagesFunctionHandler({ build });
+    return remixHandler(context);
+};

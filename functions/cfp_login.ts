@@ -13,7 +13,7 @@ export async function onRequestPost(context: {
     const redirectPath = redirect.toString() || '/';
 
     if (hashedPassword === hashedCfpPassword) {
-        // Valid password. Redirect to home page and set cookie with auth hash.
+        // 有効なパスワード。ホームページにリダイレクトし、認証ハッシュを持つクッキーを設定
         const cookieKeyValue = await getCookieKeyValue(env.CFP_PASSWORD);
 
         return new Response('', {
@@ -25,7 +25,7 @@ export async function onRequestPost(context: {
             }
         });
     } else {
-        // Invalid password. Redirect to login page with error.
+        // 無効なパスワード。エラーメッセージを持つログインページにリダイレクト
         return new Response('', {
             status: 302,
             headers: {
