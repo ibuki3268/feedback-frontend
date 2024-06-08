@@ -26,7 +26,7 @@ export default function Home() {
 
     return (
         <div>
-            <h1>Scan a Barcode</h1>
+            <h1>じょぎの貸し出し</h1>
             <BarcodeReader onScan={handleScan} />
             {scannedBarcode && <p>Scanned Barcode: {scannedBarcode}</p>}
             {product ? (

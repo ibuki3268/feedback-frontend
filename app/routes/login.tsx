@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from '@remix-run/react';
 
+export const links = () => {
+    return [{ rel: 'stylesheet', href: '/styles/login.css' }];
+};
+
 export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -12,25 +16,25 @@ export default function Login() {
         const correctPassword = import.meta.env.VITE_PASSWORD;
         if (password === correctPassword) {
             localStorage.setItem('authenticated', 'true');
-            navigate('/home'); // ログイン成功後に/homeにリダイレクト
+            navigate('/home');
         } else {
             setError('Incorrect password');
         }
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="container">
+            <h1>じょぎの門</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter password"
+                    placeholder="ぱすわーどを入力してね"
                 />
-                <button type="submit">Submit</button>
+                <button type="submit">入室</button>
             </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 }

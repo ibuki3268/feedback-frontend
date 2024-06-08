@@ -12,7 +12,7 @@ export default function BarcodeReader({ onScan }: { onScan: (result: string) => 
 
         if (videoRef.current && isDecoding) {
             const videoConstraints = {
-                facingMode: 'environment', // 背面カメラを使用
+                facingMode: 'environment',
                 width: 640,
                 height: 480,
             };
@@ -60,7 +60,7 @@ export default function BarcodeReader({ onScan }: { onScan: (result: string) => 
     return (
         <div>
             <video ref={videoRef} width="300" height="200" autoPlay />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
         </div>
     );
 }
