@@ -12,4 +12,5 @@ export default defineConfig({
       VITE_PASSWORD: JSON.stringify(process.env.VITE_REMIX_PASSWORD),
     },
   },
+  assetsInclude: ['**/*.mp3'],
 });

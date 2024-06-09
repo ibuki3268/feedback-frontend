@@ -30,7 +30,7 @@ export default function Home() {
             <BarcodeReader onScan={handleScan} />
             {scannedBarcode && <p>Scanned Barcode: {scannedBarcode}</p>}
             {product ? (
-                <div className="product-details">
+                <div>
                     <h2>Product Details</h2>
                     <p>Name: {product.name}</p>
                     <p>Price: ${product.price}</p>
