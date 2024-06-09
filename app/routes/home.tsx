@@ -8,10 +8,7 @@ interface Product {
     description: string;
 }
 
-const mockProductDatabase: Record<string, Product> = {
-    '123456789012': { id: '123456789012', name: 'Product 1', price: 100, description: 'Description for product 1' },
-    '987654321098': { id: '987654321098', name: 'Product 2', price: 200, description: 'Description for product 2' },
-};
+
 
 export const links = () => {
     return [{ rel: 'stylesheet', href: '/styles/home.css' }];
@@ -24,8 +21,7 @@ export default function Home() {
     const handleScan = (barcode: string) => {
         console.log('Scanned barcode:', barcode);
         setScannedBarcode(barcode);
-        const scannedProduct = mockProductDatabase[barcode];
-        setProduct(scannedProduct || null);
+
     };
 
     return (

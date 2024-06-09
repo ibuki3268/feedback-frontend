@@ -58,8 +58,9 @@ export default function BarcodeReader({ onScan }: { onScan: (result: string) => 
     }, [onScan, isDecoding]);
 
     return (
-        <div>
+        <div className="video-container">
             <video ref={videoRef} width="640" height="480" autoPlay />
+            <div className="frame"></div>
             {/* {error && <p className="error">{error}</p>} */}
         </div>
     );
