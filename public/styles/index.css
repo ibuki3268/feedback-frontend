@@ -6,16 +6,24 @@ body, html {
   font-family: 'Arial', sans-serif;
 }
 
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f8ff; /* 淡い青色の背景 */
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 100vh; /* 画面全体をカバー */
   padding: 20px;
-  background-color: #e0f7fa; /* 淡い青色の背景 */
+  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .subheading {
