@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { BrowserMultiFormatReader } from '@zxing/browser';
-import beepSound from '../../public/assets/beep.mp3';
 
 export default function BarcodeReader({ onScan }: { onScan: (result: string) => void }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [error, setError] = useState<string | null>(null);
     const [isDecoding, setIsDecoding] = useState(false);
-    const [isScanning, setIsScanning] = useState(false);
 
-    const startScanning = () => {
+    const startDecoding = () => {
         setIsDecoding(true);
-        setIsScanning(true);
     };
 
     useEffect(() => {
@@ -34,8 +31,6 @@ export default function BarcodeReader({ onScan }: { onScan: (result: string) => 
                             console.log('Barcode scanned:', result.getText());
                             onScan(result.getText());
                             setIsDecoding(false);
-                            // スキャン成功時に音を鳴らす
-                            // new Audio(beepSound).play();
                         }
                         if (error) {
                             console.error('Decode error:', error);
@@ -67,11 +62,10 @@ export default function BarcodeReader({ onScan }: { onScan: (result: string) => 
     }, [onScan, isDecoding]);
 
     return (
-        <div className="video-container">
+        <div>
+            <button onClick={startDecoding} className="scan-button">スキャン開始</button>
             <video ref={videoRef} width="640" height="480" autoPlay />
-            <div className="frame"></div>
-            {/* {error && <p className="error">{error}</p>} */}
-            {!isScanning && <button onClick={startScanning} className="scan-button">スキャン開始</button>}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 }
