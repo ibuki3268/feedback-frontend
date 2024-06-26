@@ -10,8 +10,7 @@ body, html {
 .page-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
+    min-height: 50vh;
 }
 
 .header {
@@ -20,6 +19,7 @@ body, html {
     padding: 15px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0;
 }
 
 .footer {
@@ -27,25 +27,24 @@ body, html {
     color: white;
     padding: 10px;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: auto;
 }
 
-.container {
+.content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex: 1; /* コンテンツを中央に配置 */
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 600px;
-    margin: 50px auto;
+    margin: auto; /* 中央に配置 */
 }
 
 h1 {
@@ -60,6 +59,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 20px 0; /* 追加: スキャン画面を中央に配置 */
 }
 
 video {

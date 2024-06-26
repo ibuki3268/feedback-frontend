@@ -46,7 +46,7 @@ export default function Lend() {
     return (
         <div className="page-container">
             <Header />
-            <div className="container">
+            <div className="content">
                 <h1>じょぎの貸し出し</h1>
                 <BarcodeReader onScan={handleScan} />
                 {scannedBarcode && (
