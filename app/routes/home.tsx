@@ -1,44 +1,24 @@
-import { useState } from 'react';
-import BarcodeReader from '~/components/BarcodeReader';
-
-interface Product {
-    id: string;
-    name: string;
-    price: number;
-    description: string;
-}
-
-
+import Header from '~/components/Header';
+import Footer from '~/components/Footer';
 
 export const links = () => {
-    return [{ rel: 'stylesheet', href: '/styles/home.css' }];
+    return [
+        { rel: 'stylesheet', href: '/styles/normalize.css' },
+        { rel: 'stylesheet', href: '/styles/home.css' },
+        { rel: 'stylesheet', href: '/styles/header.css' },
+        { rel: 'stylesheet', href: '/styles/footer.css' },
+    ];
 };
 
 export default function Home() {
-    const [product, setProduct] = useState<Product | null>(null);
-    const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
-
-    const handleScan = (barcode: string) => {
-        console.log('Scanned barcode:', barcode);
-        setScannedBarcode(barcode);
-
-    };
-
     return (
-        <div className="container">
-            <h1>じょぎの貸し出し</h1>
-            <BarcodeReader onScan={handleScan} />
-            {scannedBarcode && <p>Scanned Barcode: {scannedBarcode}</p>}
-            {product ? (
-                <div>
-                    <h2>Product Details</h2>
-                    <p>Name: {product.name}</p>
-                    <p>Price: ${product.price}</p>
-                    <p>Description: {product.description}</p>
-                </div>
-            ) : (
-                <p>No product found</p>
-            )}
+        <div className="page-container">
+            <Header />
+            <div className="content">
+                <h1>じょぎの貸し出し</h1>
+                <p>ようこそ！以下のリンクから希望図書や貸出ページに移動できます。</p>
+            </div>
+            <Footer />
         </div>
     );
 }
