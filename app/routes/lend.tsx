@@ -44,19 +44,22 @@ export default function Lend() {
     };
 
     return (
-        <div>
+        <div className="page-container">
             <Header />
             <div className="container">
                 <h1>じょぎの貸し出し</h1>
                 <BarcodeReader onScan={handleScan} />
-                {scannedBarcode && <p>Scanned Barcode: {scannedBarcode}</p>}
-                {product ? (
-                    <div>
-                        <h2>Product Details</h2>
-                        <p>Title: {product.title}</p>
+                {scannedBarcode && (
+                    <div className="product-details">
+                        {product ? (
+                            <>
+                                <h2>貸出する本</h2>
+                                <p>{product.title}</p>
+                            </>
+                        ) : (
+                            <p>No product found</p>
+                        )}
                     </div>
-                ) : (
-                    <p>No product found</p>
                 )}
             </div>
             <Footer />
