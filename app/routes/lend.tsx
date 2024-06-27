@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import BarcodeReader from '~/components/BarcodeReader';
 import Footer from '~/components/Footer';
 import Header, { links as headerLinks } from '~/components/Header';
-import Papa from 'papaparse';
 
 interface Product {
-    code: string;
-    title: string;
+    ISBN: string;
+    Title: string;
 }
 
 export const links = () => {
@@ -24,22 +23,18 @@ export default function Lend() {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        fetch('/assets/Bookstore.csv')
-            .then(response => response.text())
-            .then(text => {
-                Papa.parse<Product>(text, {
-                    header: true,
-                    complete: (results) => {
-                        setProducts(results.data);
-                    }
-                });
-            });
+        fetch('https://book-lending-back.jyogi.workers.dev/books.json')
+            .then(response => response.json())
+            .then((data: unknown) => {
+                setProducts(data as Product[]);
+            })
+            .catch(error => console.error('Error fetching books:', error));
     }, []);
 
     const handleScan = (barcode: string) => {
         console.log('Scanned barcode:', barcode);
         setScannedBarcode(barcode);
-        const scannedProduct = products.find(product => product.code === barcode);
+        const scannedProduct = products.find(product => product.ISBN.trim() === barcode);
         setProduct(scannedProduct || null);
     };
 
@@ -54,7 +49,7 @@ export default function Lend() {
                         {product ? (
                             <>
                                 <h2>貸出する本</h2>
-                                <p>{product.title}</p>
+                                <p>{product.Title}</p>
                             </>
                         ) : (
                             <p>No product found</p>
