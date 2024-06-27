@@ -1,118 +1,150 @@
 /* 全体のスタイル */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f8ff; /* 淡い青色の背景 */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Arial", sans-serif;
+  background-color: #f0f8ff; /* 淡い青色の背景 */
 }
 
 .page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .header {
-    background-color: #007BFF;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 0;
+  background-color: #007bff;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
 }
 
 .footer {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: auto;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: auto;
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex: 1; /* コンテンツを中央に配置 */
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 600px;
-    margin: auto; /* 中央に配置 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex: 1; /* コンテンツを中央に配置 */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+  margin: auto; /* 中央に配置 */
 }
 
 h1 {
-    color: #333;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 20px;
 }
 
 .video-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0; /* 追加: スキャン画面を中央に配置 */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0; /* 追加: スキャン画面を中央に配置 */
 }
 
 video {
-    border: 2px solid #007BFF; /* 青色の枠 */
-    border-radius: 5px;
+  border: 2px solid #007bff; /* 青色の枠 */
+  border-radius: 5px;
 }
 
 .frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    height: 20%;
-    border: 2px solid red;
-    transform: translate(-50%, -50%);
-    pointer-events: none; /* 枠がクリックできないようにする */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 20%;
+  border: 2px solid red;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* 枠がクリックできないようにする */
 }
 
 .scan-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .scan-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .error {
-    color: red;
-    margin-top: 10px;
-    display: none; /* デフォルトで非表示 */
+  color: red;
+  margin-top: 10px;
+  display: none; /* デフォルトで非表示 */
 }
 
 /* Product details */
 .product-details {
-    margin-top: 20px;
-    text-align: left;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .product-details h2 {
-    color: #333;
-    font-size: 1.5em;
-    margin-bottom: 10px;
+  color: #333;
+  font-size: 1.5em;
+  margin-bottom: 10px;
 }
 
 .product-details p {
-    color: #555;
-    font-size: 1em;
-    margin: 5px 0;
+  color: #555;
+  font-size: 1em;
+  margin: 5px 0;
+}
+
+/* User selection */
+.user-selection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.user-selection label {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+.user-selection select {
+  padding: 5px;
+  font-size: 1em;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }

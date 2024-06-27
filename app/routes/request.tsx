@@ -19,7 +19,7 @@ export default function Wish() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Handle form submission
-        setMessage('リクエストが送信されました。');
+        setMessage('まだ実装してません。ごめんね。リタ子より');
     };
 
     return (

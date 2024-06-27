@@ -8,6 +8,11 @@ interface Product {
     Title: string;
 }
 
+interface User {
+    displayName: string;
+    username: string;
+}
+
 export const links = () => {
     return [
         ...headerLinks(),
@@ -21,6 +26,8 @@ export default function Lend() {
     const [product, setProduct] = useState<Product | null>(null);
     const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
     const [products, setProducts] = useState<Product[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
     useEffect(() => {
         fetch('https://book-lending-back.jyogi.workers.dev/books.json')
@@ -29,6 +36,13 @@ export default function Lend() {
                 setProducts(data as Product[]);
             })
             .catch(error => console.error('Error fetching books:', error));
+        
+        fetch('https://book-lending-back.jyogi.workers.dev/users.json')
+            .then(response => response.json())
+            .then((data: unknown) => {
+                setUsers(data as User[]);
+            })
+            .catch(error => console.error('Error fetching users:', error));
     }, []);
 
     const handleScan = (barcode: string) => {
@@ -36,6 +50,38 @@ export default function Lend() {
         setScannedBarcode(barcode);
         const scannedProduct = products.find(product => product.ISBN.trim() === barcode);
         setProduct(scannedProduct || null);
+    };
+
+    const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const username = event.target.value;
+        const user = users.find(user => user.username === username) || null;
+        setSelectedUser(user);
+    };
+
+    const handleLend = () => {
+        if (selectedUser && product) {
+            const data = {
+                user: selectedUser.username,
+                book: product.Title
+            };
+
+            fetch('https://book-lending-back.jyogi.workers.dev/api/lend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log('Success:', result);
+                // ここに貸し出しが成功したときの処理を追加
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // ここに貸し出しが失敗したときの処理を追加
+            });
+        }
     };
 
     return (
@@ -50,6 +96,18 @@ export default function Lend() {
                             <>
                                 <h2>貸出する本</h2>
                                 <p>{product.Title}</p>
+                                <label htmlFor="user-select">ユーザーを選択</label>
+                                <select id="user-select" onChange={handleUserChange}>
+                                    <option value="">ユーザーを選択してください</option>
+                                    {users.map(user => (
+                                        <option key={user.username} value={user.username}>
+                                            {user.displayName}
+                                        </option>
+                                    ))}
+                                </select>
+                                <button onClick={handleLend} disabled={!selectedUser}>
+                                    貸し出す
+                                </button>
                             </>
                         ) : (
                             <p>No product found</p>
