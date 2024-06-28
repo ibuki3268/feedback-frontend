@@ -1,17 +1,7 @@
-/* 全体のスタイル */
-body,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Arial", sans-serif;
-  background-color: #f0f8ff; /* 淡い青色の背景 */
-}
-
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 50vh;
 }
 
 .header {
@@ -103,7 +93,7 @@ video {
 /* Product details */
 .product-details {
   margin-top: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .product-details h2 {
@@ -118,24 +108,13 @@ video {
   margin: 5px 0;
 }
 
-/* User selection */
-.user-selection {
+.button-group {
+  display: flex;
+  gap: 10px;
   margin-top: 20px;
-  text-align: center;
-}
-
-.user-selection label {
-  margin-right: 10px;
-  font-size: 1.2em;
-}
-
-.user-selection select {
-  padding: 5px;
-  font-size: 1em;
 }
 
 button {
-  margin-top: 20px;
   padding: 10px 20px;
   font-size: 1em;
   color: #fff;

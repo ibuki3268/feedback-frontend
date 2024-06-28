@@ -58,11 +58,12 @@ export default function Lend() {
         setSelectedUser(user);
     };
 
-    const handleLend = () => {
+    const handleLend = (action: 'borrow' | 'return') => {
         if (selectedUser && product) {
             const data = {
                 user: selectedUser.username,
-                book: product.Title
+                book: product.Title,
+                action: action
             };
 
             fetch('https://book-lending-back.jyogi.workers.dev/api/lend', {
@@ -105,9 +106,14 @@ export default function Lend() {
                                         </option>
                                     ))}
                                 </select>
-                                <button onClick={handleLend} disabled={!selectedUser}>
-                                    貸し出す
-                                </button>
+                                <div className="button-group">
+                                    <button onClick={() => handleLend('borrow')} disabled={!selectedUser}>
+                                        貸し出す
+                                    </button>
+                                    <button onClick={() => handleLend('return')} disabled={!selectedUser}>
+                                        返す
+                                    </button>
+                                </div>
                             </>
                         ) : (
                             <p>No product found</p>
