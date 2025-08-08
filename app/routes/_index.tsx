@@ -12,7 +12,7 @@ export default function Index() {
     <div className="page-container">
       <div className="container">
         <p className="subheading">じょぎ</p>
-        <Link to="/login" className="link">
+        <Link to="/home" className="link">
           入室
         </Link>
       </div>
