@@ -12,9 +12,19 @@ export default function Index() {
     <div className="page-container">
       <div className="container">
         <p className="subheading">じょぎ</p>
-        <Link to="/home" className="link">
-          入室
-        </Link>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <Link to="/home" className="link">
+            ホーム
+          </Link>
+          <Link to="/login" className="link">
+            ログイン
+          </Link>
+          <Link to="/signup" className="link">
+            新規登録
+          </Link>
+        </div>
+
       </div>
     </div>
   );
