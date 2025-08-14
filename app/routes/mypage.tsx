@@ -25,6 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 // ▼▼▼ フォームが送信された「後」に実行されるサーバー処理 ▼▼▼
 export async function action({ request }: ActionFunctionArgs) {
   // ファイルを受け取るための準備
+  /*
   const uploadHandler = unstable_createFileUploadHandler({
     file: ({ filename }) => filename,
   });
@@ -43,10 +44,12 @@ export async function action({ request }: ActionFunctionArgs) {
 
   // サーバーのコンソールに、受け取ったファイル情報を表示
   console.log("Received file:", iconFile.name, "Type:", iconFile.type);
+  */
 
   // 本来は、ここでファイルをストレージに保存する処理を書きます
 
-  return json({ success: true, fileName: iconFile.name });
+console.log("File upload action was called (currently disabled for deployment).");
+  return json({ success: true, message: "File upload is temporarily disabled." });
 }
 
 // ▼▼▼ ページの「見た目」を定義するコンポーネント ▼▼▼
