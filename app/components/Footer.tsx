@@ -14,6 +14,7 @@ export default function Footer() {
                     <li><Link to="/request">希望図書</Link></li>
                     <li><Link to="/home">ホーム</Link></li>
                     <li><Link to="/lend">貸出</Link></li>
+                    <li><Link to="/mypage">マイページ</Link></li>
                 </ul>
             </nav>
         </footer>
