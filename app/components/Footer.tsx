@@ -15,6 +15,7 @@ export default function Footer() {
                     <li><Link to="/home">ホーム</Link></li>
                     <li><Link to="/lend">貸出</Link></li>
                     <li><Link to="/mypage">マイページ</Link></li>
+                    <li><Link to="/book-register">本の登録</Link></li>
                 </ul>
             </nav>
         </footer>
