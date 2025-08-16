@@ -11,7 +11,7 @@ export default function Header() {
         <header className="header">
             <nav>
                 <ul>
-                    <li><Link to="https://jyogi-hp.pages.dev/">じょぎ</Link></li>
+                    <li><Link to="https://feedback-frontend-ce8.pages.dev/home">じょぎ</Link></li>
                 </ul>
             </nav>
         </header>
