@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 
+// このページで読み込むCSSファイルを定義します
 export const links = () => {
     return [
         { rel: 'stylesheet', href: '/styles/normalize.css' },
@@ -13,50 +15,60 @@ export const links = () => {
     ];
 };
 
-// タグの型定義
-type Tag = {
-  id: number;
-  name: string;
-};
-
-// 既存のタグを取得するローダー（実際のAPIエンドポイントに合わせて修正してください）
+// ページが表示される前にサーバー側で実行され、データを取得します
 export async function loader({ request }: LoaderFunctionArgs) {
-  // TODO: 実際のAPIからタグ一覧を取得
-  const existingTags: Tag[] = [];
-  
-  return { existingTags };
+  try {
+    // API仕様書④のエンドポイントを呼び出して、タグの一覧を取得します
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tags`);
+    if (!response.ok) {
+      throw new Error("タグの取得に失敗しました。");
+    }
+    // 受け取ったデータが文字列の配列であることをTypeScriptに教えます
+    const tags = await response.json() as string[];
+    
+    // 取得したタグの配列をページに渡します
+    return json({ tags });
+
+  } catch (error) {
+    console.error(error);
+    // エラーが発生した場合は、空の配列を渡します
+    return json({ tags: [] });
+  }
 }
 
+// フォームが送信されたときにサーバー側で実行されます
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const isbn = formData.get("isbn");
   const title = formData.get("title");
-  const selectedTags = formData.getAll("selectedTags");
-  const newTag = formData.get("newTag");
+  const tags = formData.getAll("tags"); // 選択された既存タグ
+  const newTag = formData.get("newTag"); // 新しく入力されたタグ
 
-  console.log({ 
+  // ターミナルに送信されたデータを表示します
+  console.log("本登録フォーム送信データ:", { 
     isbn, 
     title, 
-    selectedTags, 
+    tags, 
     newTag: newTag || null 
   });
 
-  // TODO: サーバーにデータを送信
-  // 新しいタグがある場合は先に作成してから本を登録
-
+  // TODO: サーバーにデータを送信する処理（API仕様書⑥）をここに記述します
+  
   return null;
 }
 
+// ページの見た目を定義するコンポーネントです
 export default function BookRegisterPage() {
-  const { existingTags } = useLoaderData<typeof loader>();
-  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+  const { tags } = useLoaderData<typeof loader>();
+  
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
 
-  const handleTagToggle = (tagId: number) => {
+  const handleTagToggle = (tagName: string) => {
     setSelectedTags(prev => 
-      prev.includes(tagId) 
-        ? prev.filter(id => id !== tagId)
-        : [...prev, tagId]
+      prev.includes(tagName) 
+        ? prev.filter(name => name !== tagName)
+        : [...prev, tagName]
     );
   };
 
@@ -82,17 +94,8 @@ export default function BookRegisterPage() {
                   placeholder="9784123456789"
                   pattern="[0-9]{13}"
                   required
-                  style={{ 
-                    width: '100%', 
-                    padding: '10px', 
-                    borderRadius: '5px', 
-                    border: '1px solid #ccc',
-                    fontSize: '16px'
-                  }}
+                  style={{ width: '100%', padding: '10px' }}
                 />
-                <small style={{ color: '#666', fontSize: '12px' }}>
-                  バーコード下の13桁の数字を入力してください
-                </small>
               </div>
 
               {/* 本のタイトル入力 */}
@@ -106,13 +109,7 @@ export default function BookRegisterPage() {
                   name="title"
                   placeholder="本のタイトルを入力"
                   required
-                  style={{ 
-                    width: '100%', 
-                    padding: '10px', 
-                    borderRadius: '5px', 
-                    border: '1px solid #ccc',
-                    fontSize: '16px'
-                  }}
+                  style={{ width: '100%', padding: '10px' }}
                 />
               </div>
 
@@ -121,36 +118,26 @@ export default function BookRegisterPage() {
                 <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>
                   タグを選択
                 </label>
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', 
-                  gap: '10px',
-                  padding: '15px',
-                  border: '1px solid #ddd',
-                  borderRadius: '5px',
-                  backgroundColor: '#f9f9f9'
-                }}>
-                  {existingTags.map((tag) => (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '10px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
+                  {tags.map((tag: string) => (
                     <label 
-                      key={tag.id} 
+                      key={tag} 
                       style={{ 
                         display: 'flex', 
                         alignItems: 'center', 
                         cursor: 'pointer',
-                        padding: '5px',
-                        borderRadius: '3px',
-                        backgroundColor: selectedTags.includes(tag.id) ? '#e3f2fd' : 'transparent'
+                        backgroundColor: selectedTags.includes(tag) ? '#e3f2fd' : 'transparent'
                       }}
                     >
                       <input
                         type="checkbox"
-                        name="selectedTags"
-                        value={tag.id}
-                        checked={selectedTags.includes(tag.id)}
-                        onChange={() => handleTagToggle(tag.id)}
+                        name="tags"
+                        value={tag}
+                        checked={selectedTags.includes(tag)}
+                        onChange={() => handleTagToggle(tag)}
                         style={{ marginRight: '8px' }}
                       />
-                      <span style={{ fontSize: '14px' }}>{tag.name}</span>
+                      <span>{tag}</span>
                     </label>
                   ))}
                 </div>
@@ -168,53 +155,22 @@ export default function BookRegisterPage() {
                   placeholder="新しいタグ名を入力"
                   value={newTag}
                   onChange={(e) => setNewTag(e.target.value)}
-                  style={{ 
-                    width: '100%', 
-                    padding: '10px', 
-                    borderRadius: '5px', 
-                    border: '1px solid #ccc',
-                    fontSize: '16px'
-                  }}
+                  style={{ width: '100%', padding: '10px' }}
                 />
-                <small style={{ color: '#666', fontSize: '12px' }}>
-                  新しいタグを入力すると自動的にサーバーに保存されます
-                </small>
               </div>
 
               {/* 選択されたタグの表示 */}
-              {selectedTags.length > 0 && (
+              {(selectedTags.length > 0 || newTag) && (
                 <div>
-                  <p style={{ margin: '10px 0 5px 0', fontWeight: 'bold', fontSize: '14px' }}>
-                    選択中のタグ:
-                  </p>
+                  <p style={{ fontWeight: 'bold' }}>選択中のタグ:</p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                    {selectedTags.map(tagId => {
-                      const tag = existingTags.find(t => t.id === tagId);
-                      return (
-                        <span 
-                          key={tagId}
-                          style={{
-                            backgroundColor: '#2196F3',
-                            color: 'white',
-                            padding: '4px 8px',
-                            borderRadius: '12px',
-                            fontSize: '12px'
-                          }}
-                        >
-                          {tag?.name}
-                        </span>
-                      );
-                    })}
+                    {selectedTags.map(tagName => (
+                      <span key={tagName} style={{ backgroundColor: '#2196F3', color: 'white', padding: '4px 8px', borderRadius: '12px', fontSize: '12px' }}>
+                        {tagName}
+                      </span>
+                    ))}
                     {newTag && (
-                      <span 
-                        style={{
-                          backgroundColor: '#4CAF50',
-                          color: 'white',
-                          padding: '4px 8px',
-                          borderRadius: '12px',
-                          fontSize: '12px'
-                        }}
-                      >
+                      <span style={{ backgroundColor: '#4CAF50', color: 'white', padding: '4px 8px', borderRadius: '12px', fontSize: '12px' }}>
                         {newTag} (新規)
                       </span>
                     )}
@@ -222,15 +178,7 @@ export default function BookRegisterPage() {
                 </div>
               )}
 
-              <button 
-                type="submit" 
-                className="link"
-                style={{
-                  padding: '12px 20px',
-                  fontSize: '16px',
-                  fontWeight: 'bold'
-                }}
-              >
+              <button type="submit" className="link">
                 本を登録
               </button>
             </div>
