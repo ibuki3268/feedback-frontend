@@ -10,6 +10,7 @@ export default defineConfig({
   define: {
     'process.env': {
       VITE_PASSWORD: JSON.stringify(process.env.VITE_REMIX_PASSWORD),
+      VITE_API_URL: JSON.stringify(process.env.VITE_API_URL),
     },
   },
   assetsInclude: ['**/*.mp3', '**/*.css'],
