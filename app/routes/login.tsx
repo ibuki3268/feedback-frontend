@@ -27,10 +27,22 @@ export async function action({ request }: ActionFunctionArgs) {
 
   // もしログインに成功してtokenが返ってきたら...
   if (data.token) {
-    // TODO: ここで受け取ったトークンをCookieなどに保存する処理を追加する
-    console.log("Login successful, token:", data.token);
-    // ログイン後のページ（例えばホームページ）にリダイレクト（強制的に移動）させる
-    return redirect("/home");
+    // --- ▼▼▼ ここからが修正部分 ▼▼▼ ---
+
+    // 1. Cookieに保存するためのヘッダーを作成
+    const headers = new Headers();
+    headers.append(
+      "Set-Cookie",
+      // HttpOnly: セキュリティを高める設定
+      // Path=/: サイト全体で有効なCookieにする
+      // Max-Age=3600: Cookieの有効期限 (ここでは1時間)
+      `token=${data.token}; HttpOnly; Path=/; SameSite=Lax; Max-Age=3600`
+    );
+
+    // 2. Cookie設定ヘッダーを付けてマイページにリダイレクト
+    return redirect("/mypage", { headers });
+
+    // --- ▲▲▲ ここまでが修正部分 ▲▲▲ ---
   }
 
   // ログインに失敗した場合は、エラーメッセージをページに返す

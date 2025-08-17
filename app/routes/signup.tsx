@@ -7,9 +7,6 @@ type ActionResponse = {
   error?: boolean; 
 }
 
-// ---------------------------------------------------------
-// ▼ サーバーサイドの処理部分
-// ---------------------------------------------------------
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const nickname = formData.get("nickname");
@@ -29,7 +26,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (!response.ok) {
       let errorMessage;
       try {
-        // 'as' を使って、受け取ったデータの型を保証する
         const errorData = await response.json() as { message: string };
         errorMessage = errorData.message || "登録に失敗しました";
       } catch (e) {
@@ -50,9 +46,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
-// ---------------------------------------------------------
-// ▼ ブラウザで表示されるUI部分
-// ---------------------------------------------------------
 export default function SignupPage() {
   const actionData = useActionData<ActionResponse>();
 
