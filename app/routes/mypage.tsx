@@ -126,27 +126,6 @@ export async function action({ request }: ActionFunctionArgs) {
     // ファイルアップロード処理（現在は無効化）
     console.log("File upload action was called (currently disabled for deployment).");
     
-    // 実際のファイルアップロード処理をここに実装する場合:
-    /*
-    const uploadHandler = unstable_createFileUploadHandler({
-      maxPartSize: 5_000_000, // 5MB
-      file: ({ filename }) => filename,
-    });
-    
-    const formData = await unstable_parseMultipartFormData(
-      request,
-      uploadHandler
-    );
-    
-    const iconFile = formData.get("icon") as File;
-    
-    if (iconFile && iconFile.size > 0) {
-      // ファイルをバックエンドにアップロード
-      const apiUrl = process.env.API_URL || "http://localhost:5000";
-      // アップロード処理...
-    }
-    */
-    
     return json({ success: true, message: "File upload is temporarily disabled." });
   } catch (error) {
     console.error("Action error:", error);
